@@ -1,0 +1,21 @@
+package com.example.demo.controller;
+//UserController.java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import com.example.demo.service.*;
+import java.util.List;
+
+
+@RestController
+@RequestMapping("/api/users")
+public class Controlador {
+
+ @Autowired
+ private Servicio userService;
+
+
+ @GetMapping("/{id}")
+ public int getId(@PathVariable Long id) {
+     return generador();
+ }
+}

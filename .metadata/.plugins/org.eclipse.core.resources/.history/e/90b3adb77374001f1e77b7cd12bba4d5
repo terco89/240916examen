@@ -1,0 +1,51 @@
+package controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import demo.repo.*;
+import demo.model.*;
+
+@RestController
+public class ProductController {
+    @Autowired
+    private ProductRepo productRepository;
+ 
+    @GetMapping("/products")
+    public List<Product> getAllProduct() {
+        return productRepository.findAll();
+    }
+ 
+    @GetMapping("/product/{id}")
+    public Product getProductById(@PathVariable Long id) throws Exception {
+        return productRepository.findById(id).orElseThrow(() -> new Exception("Producto no encontrado "));
+    }
+ 
+    @PostMapping("/product/save")
+    public Product createProduct(@Validated @RequestBody Product product) {
+        return productRepository.save(product);
+    }
+ 
+    @PutMapping("product/update/{id}")
+    public Product updateProduct(@PathVariable Long id, @Validated @RequestBody Product pDetails) throws Exception {
+        Product product = productRepository.findById(id).orElseThrow(() -> new Exception("Producto no encontrado"));
+ 
+       product.setTitle(pDetails.getTitle());
+        product.setDescription(pDetails.getDescription());
+        product.setPrice(pDetails.getPrice());
+ 
+        return productRepository.save(product);
+    }
+ 
+    @DeleteMapping("product/delete/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id) throws Exception {
+        Product p = productRepository.findById(id).orElseThrow(() -> new Exception("Book not found"));
+ 
+        productRepository.delete(p);
+ 
+        return ResponseEntity.ok().build();
+    }
+}

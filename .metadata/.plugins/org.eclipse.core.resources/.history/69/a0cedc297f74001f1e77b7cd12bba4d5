@@ -1,0 +1,21 @@
+package com.example.demo.service;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.service.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+@Service
+public class Service {
+
+ @Autowired
+
+ public ArrayList generador() {
+	 ArrayList ar = new ArrayList<>();
+	 for(int i = 0; i < 5; i++) {
+		 ar.add(Math.random()*10);
+	 }
+	 return ar;
+ }
+
+}
